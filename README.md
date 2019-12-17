@@ -1,2 +1,3 @@
-# adc
-AVR related ADC tools
+1.0.0 (2019.12.18)
+---------------------
+Initial version.

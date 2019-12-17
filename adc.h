@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 /**
- * Initialize ADC.
+ * Initialize ADC for voltage ref AVCC, connect AREF to GND with C=100nF
  * @param [in] pin   select which pin of port C to be used for ADC
  * @param [in] isrEn enable ADC read by ISR, value is saved in rawADC
  */
