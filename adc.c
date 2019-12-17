@@ -13,7 +13,8 @@ void ADCInit(uint8_t pin, uint8_t isrEn) {
 	ADMUX  |= (0     << REFS1) | (1     << REFS0) | // voltage ref = AVCC 
 	          pin;                                  // select pin for ADC
 	ADCSRA |= (1     << ADEN) |                     // enable ADC
-		      (isrEn << ADIE);                      // ADC interrupt enable
+		      (isrEn << ADIE) |                     // ADC interrupt enable
+			  (isrEn << ADSC);						// start a new conversion if interurpt is enabled
 	DDRC = 1 << pin;                                // set ADC pin as input
 	rawADC = 0;
 }

@@ -12,11 +12,11 @@
 
 int main(void) {
 	USARTInit();
-	ADCInit(PC1,0);
+	ADCInit(PC1,1);
 	
 	for (;;) {
-		uint16_t value = ADCRead();
-		printf("%04x\n", value);
+		//uint16_t value = ADCRead();
+		printf("%04x\n", rawADC);
 		_delay_ms(300);
 	}
 }
