@@ -6,23 +6,22 @@
  */ 
 
 #include "adc.h"
+#include <avr/io.h>
+#include <avr/interrupt.h>
 
-int16_t rawADC = 0;
-
-void ADCInit(bool isrEn) {
-	ADMUX |= (1 << REFS0) ; // voltage ref = AVCC (also ADC0 channel selected)
-	ADCSRA |= (1 << ADEN) | // enable ADC
-	          (1 << ADSC) | // start conversion
-		      (isrEn << ADIE) | // ADC interrupt enable
-			  (1 << ADPS2)| // sample prescaler
-			  (1 << ADPS1)| // sample prescaler
-			  (1 << ADPS0) ;// sample prescaler
+void ADCInit(uint8_t pin, uint8_t isrEn) {
+	ADMUX  |= (0     << REFS1) | (1     << REFS0) | // voltage ref = AVCC 
+	          pin;                                  // select pin for ADC
+	ADCSRA |= (1     << ADEN) |                     // enable ADC
+		      (isrEn << ADIE);                      // ADC interrupt enable
+	DDRC = 1 << pin;                                // set ADC pin as input
+	rawADC = 0;
 }
 
 uint16_t ADCRead() {
 	ADCSRA |= (1<<ADSC);        // Start conversion
     while (ADCSRA & (1<<ADSC)); // wait for conversion to complete
-    return ADC;                 //Store ADC value	
+    return ADC;                 // Store ADC value	
 }
 
 ISR(ADC_vect) {

@@ -8,13 +8,24 @@
 #ifndef ADC_TOOLS_H_
 #define ADC_TOOLS_H_
 
-#include <avr/io.h>
-#include <avr/common.h>
-#include <avr/interrupt.h>
+#include <stdint.h>
 
-void ADCInit(bool isrEn);
+/**
+ * Initialize ADC.
+ * @param [in] pin   select which pin of port C to be used for ADC
+ * @param [in] isrEn enable ADC read by ISR, value is saved in rawADC
+ */
+void ADCInit(uint8_t pin, uint8_t isrEn);
+
+/**
+ * Read ADC output register
+ * @return ADC value (10 bit precision)
+ */
 uint16_t ADCRead();
 
-int16_t rawADC;
+/**
+ * Global variable to store ADC from ISR.
+ */
+uint16_t rawADC;
 
 #endif /* ADC_TOOLS_H_ */
