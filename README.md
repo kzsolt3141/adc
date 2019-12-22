@@ -5,3 +5,7 @@ Initial version.
 1.0.1 (2019.12.18)
 ---------------------
 Disable interrupts while configuring ADC.
+
+1.0.2 (2019.12.22)
+---------------------
+Update UART tag.
