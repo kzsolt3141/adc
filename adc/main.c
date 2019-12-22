@@ -17,7 +17,7 @@ int main(void) {
 	for (;;) {
 		//uint16_t value = ADCRead();
 		printf("%04x\n", rawADC);
-		_delay_ms(300);
+		_delay_ms(30);
 	}
 }
 
