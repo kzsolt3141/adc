@@ -5,6 +5,7 @@
  * Author : Zsolt
  */ 
 
+#include "m8_def/m8_def.h"
 #include <avr/io.h>
 #include "adc.h"
 #include "uart.h"

@@ -130,6 +130,10 @@
       <SubType>compile</SubType>
       <Link>adc.h</Link>
     </Compile>
+    <Compile Include="..\m8_def\m8_def.h">
+      <SubType>compile</SubType>
+      <Link>m8_def.h</Link>
+    </Compile>
     <Compile Include="..\uart\uart.c">
       <SubType>compile</SubType>
       <Link>uart.c</Link>
