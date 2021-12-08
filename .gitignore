@@ -1,2 +1,3 @@
-adc/Debug/
-adc/.vs/*
+.vscode
+*.bin
+*.hex
