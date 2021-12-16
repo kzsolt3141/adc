@@ -36,8 +36,8 @@ static void USART_RXC_cb_handle(void* ctx) {
  * ADC interrupt callback handle context
  */
 struct ADC_cb_ctx_t {
-    uint16_t adc;  // received adc
-    uint16_t isc_ctn;
+    uint16_t adc[2];  // received adc
+    uint8_t  toggle;
 };
 
 /**
@@ -49,8 +49,11 @@ struct ADC_cb_ctx_t {
 static void ADC_cb_handle(void* ctx) {
     struct ADC_cb_ctx_t* t_ctx = (struct ADC_cb_ctx_t*)ctx;
 
-    t_ctx->adc = ADC;
-    t_ctx->isc_ctn++;
+    t_ctx->adc[t_ctx->toggle & 0x01] = ADC;
+    t_ctx->toggle++;
+
+    ADMUX  &= 0xF8;  //clead admux
+    ADMUX |= t_ctx->toggle & 0x01;
 }
 
 int main(void) {
@@ -76,14 +79,16 @@ int main(void) {
 
     regiter_ADC_isr_cb(ADC_cb_handle, &ADC_ctx);
 
-    sts = ADC_pin_init(PC1, ADC_PS_128, 1, 1);
+    sts = ADC_init(ADC_PS_128, 1, 1);
     if (sts) return sts;
+
+    DDRB &= ~((1 << PC0) || (1 << PC1));  //set input for ADC
 
     printf("Init Done ADC\n");
 
     while (1) {
-        printf("test %d %d\n", ADC_ctx.adc, ADC_ctx.isc_ctn);
-        _delay_ms(1000);
+        printf("test %d %d\n", ADC_ctx.adc[0],ADC_ctx.adc[1]);
+        _delay_ms(100);
     }
     return 0;
 }

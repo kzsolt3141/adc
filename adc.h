@@ -39,13 +39,11 @@ void regiter_ADC_isr_cb(ADC_isr_cb cb, void* ctx);
 /**
  * Initialize ADC for voltage ref AVCC, connect AREF to GND with C=100nF
  * this mode will use one ADC pin for single run conversion
- * @param [in] pin         select which pin of port C to be used for ADC
  * @param [in] clk_src     select clock prescaler, see ADC_clock_source_t
  * @param [in] en_free_run ADC vill measure in continious mode
  * @param [in] en_isr      enable ADC read by ISR, value is saved in rawADC
  */
-uint8_t ADC_pin_init(
-    uint8_t          pin,
+uint8_t ADC_init(
     ADC_clock_source clk_src,
     uint8_t          en_free_run,
     uint8_t          en_isr
@@ -55,6 +53,6 @@ uint8_t ADC_pin_init(
  * Initialize or read one ADV value.
  * This can be used to read one adc value if free-run mode is disabled
  */
-uint16_t adc_single_run();
+uint16_t adc_read();
 
 #endif /* ADC_TOOLS_H_ */

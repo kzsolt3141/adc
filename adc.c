@@ -27,8 +27,7 @@ void regiter_ADC_isr_cb(ADC_isr_cb cb, void* ctx) {
     isr_set_ = 1;
 }
 
-uint8_t ADC_pin_init(
-    uint8_t          pin,
+uint8_t ADC_init(
     ADC_clock_source clk_src,
     uint8_t          en_free_run,
     uint8_t          en_isr
@@ -36,10 +35,9 @@ uint8_t ADC_pin_init(
     cli();
 
     ADMUX  |= (0 << REFS1) |
-              (1 << REFS0) | // voltage ref = AVCC 
-              pin;               // select pin for ADC
+              (1 << REFS0);  // voltage ref = AVCC
     ADCSRA |= (1 << ADEN) |  // enable ADC
-              (1 << ADSC) |  // start conversion
+              (1 << ADSC) |   //start conversion
               (en_free_run << ADFR) |   // free running mode
               clk_src;
 
@@ -48,14 +46,12 @@ uint8_t ADC_pin_init(
         ADCSRA |= (1     << ADIE);   // enable ADC interrup
     }
 
-    DDRC &= ~(1 << pin);         // set ADC pin as input
-
     sei();
 
     return 0;
 }
 
-uint16_t adc_single_run() {
+uint16_t adc_read() {
     ADCSRA |= (1 << ADSC);               // start a conversion
     if (ADCSRA & (1 << ADIE)) return 0;  // value will be delivered in ISR
 
