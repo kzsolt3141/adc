@@ -1,4 +1,8 @@
-1.0.3 (2019.12.22)
+1.0.4 (2021.12.21)
+---------------------
+Make API more general, update description.
+
+1.0.3 (2021.11.22)
 ---------------------
 Remove atmel dependency
 Remove unused submodules
