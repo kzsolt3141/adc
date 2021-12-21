@@ -26,7 +26,7 @@ typedef enum ADC_clock_source_t {
  * @param[inout] ctx user data for interrupt callback
  * When ISR occurs ADC_isr_cb will be called with ctx as parameter
  */
-typedef void (*ADC_isr_cb)(void* ctx);
+typedef void (*ADC_isr_cb)(void* ctx, uint16_t adc);
 
 /**
  * Register callback and context for ADC interrupt
@@ -39,9 +39,11 @@ void regiter_ADC_isr_cb(ADC_isr_cb cb, void* ctx);
 /**
  * Initialize ADC for voltage ref AVCC, connect AREF to GND with C=100nF
  * this mode will use one ADC pin for single run conversion
- * @param [in] clk_src     select clock prescaler, see ADC_clock_source_t
- * @param [in] en_free_run ADC vill measure in continious mode
- * @param [in] en_isr      enable ADC read by ISR, value is saved in rawADC
+ * @param[in] clk_src     select clock prescaler, see ADC_clock_source_t
+ * @param[in] en_free_run ADC vill measure in continious mode
+ * @param[in] en_isr      enable ADC read by ISR, value is saved in rawADC
+ * 
+ * @remark User must set ADC pin direction as input in application.
  */
 uint8_t ADC_init(
     ADC_clock_source clk_src,
@@ -51,8 +53,10 @@ uint8_t ADC_init(
 
 /**
  * Initialize or read one ADV value.
- * This can be used to read one adc value if free-run mode is disabled
+ * This starts an ADC conversion.
+ * @return 0 - when ISR is active -> ADC value will be delivered in ISR
+ *         wait and return ADC value when conversion is finished
  */
-uint16_t adc_read();
+uint16_t ADC_read();
 
 #endif /* ADC_TOOLS_H_ */

@@ -46,13 +46,13 @@ struct ADC_cb_ctx_t {
  * When ISR occurs ADC_cb will be called with ctx as parameter
  * ADC data (ADC) should be saved in this function
  */
-static void ADC_cb_handle(void* ctx) {
+static void ADC_cb_handle(void* ctx, uint16_t adc) {
     struct ADC_cb_ctx_t* t_ctx = (struct ADC_cb_ctx_t*)ctx;
 
-    t_ctx->adc[t_ctx->toggle & 0x01] = ADC;
+    t_ctx->adc[t_ctx->toggle & 0x01] = adc;
     t_ctx->toggle++;
 
-    ADMUX  &= 0xF8;  //clead admux
+    ADMUX  &= 0xF8;  // clear admux
     ADMUX |= t_ctx->toggle & 0x01;
 }
 

@@ -51,7 +51,7 @@ uint8_t ADC_init(
     return 0;
 }
 
-uint16_t adc_read() {
+uint16_t ADC_read() {
     ADCSRA |= (1 << ADSC);               // start a conversion
     if (ADCSRA & (1 << ADIE)) return 0;  // value will be delivered in ISR
 
@@ -60,5 +60,5 @@ uint16_t adc_read() {
 }
 
 ISR(ADC_vect) {
-    ADC_cb_(ADC_cb_ctx_);
+    ADC_cb_(ADC_cb_ctx_, ADC);
 }
