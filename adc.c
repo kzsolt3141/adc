@@ -14,23 +14,15 @@
 
 static ADC_isr_cb  ADC_cb_     = NULL;
 static void       *ADC_cb_ctx_ = NULL;
-static uint8_t     isr_set_    = 0;
 
 void regiter_ADC_isr_cb(ADC_isr_cb cb, void* ctx) {
-    if (cb) {
-        ADC_cb_ = cb;
-    } else {
-        return;
-    }
-
+    ADC_cb_ = cb;
     ADC_cb_ctx_ = ctx;
-    isr_set_ = 1;
 }
 
-uint8_t ADC_init(
+void ADC_init(
     ADC_clock_source clk_src,
-    uint8_t          en_free_run,
-    uint8_t          en_isr
+    uint8_t          en_free_run
 ) {
     cli();
 
@@ -41,14 +33,11 @@ uint8_t ADC_init(
               (en_free_run << ADFR) |   // free running mode
               clk_src;
 
-    if (en_isr) {
-        if (! isr_set_) return 1;
+    if (ADC_cb_) {
         ADCSRA |= (1     << ADIE);   // enable ADC interrup
     }
 
     sei();
-
-    return 0;
 }
 
 uint16_t ADC_read() {

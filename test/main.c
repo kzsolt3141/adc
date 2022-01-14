@@ -57,8 +57,6 @@ static void ADC_cb_handle(void* ctx, uint16_t adc) {
 }
 
 int main(void) {
-    uint8_t sts = 0;
-
     // UART INIT
     //-------------------------------
     const uint16_t baud_rate = 38400;
@@ -66,9 +64,7 @@ int main(void) {
     struct USART_RXC_cb_ctx_t USART_RXC_ctx = {};
 
     regiter_USART_RXC_cb(USART_RXC_cb_handle, &USART_RXC_ctx);
-
-    sts = USART_init(baud_rate, 1);
-    if (sts) return sts;
+    USART_init(baud_rate);
 
     printf("Init Done UART baud: %u\n", (uint16_t)baud_rate);
     //-------------------------------
@@ -79,8 +75,7 @@ int main(void) {
 
     regiter_ADC_isr_cb(ADC_cb_handle, &ADC_ctx);
 
-    sts = ADC_init(ADC_PS_128, 1, 1);
-    if (sts) return sts;
+    ADC_init(ADC_PS_128, 1);
 
     DDRB &= ~((1 << PC0) || (1 << PC1));  //set input for ADC
 
